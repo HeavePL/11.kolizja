@@ -2,11 +2,9 @@ package com.example.kolizja;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -18,7 +16,7 @@ public class HelloApplication extends Application {
     private static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
     private static final int BALL_RADIUS = 10;
-    private static final double BALL_SPEED = 0.2;
+    private static final double BALL_VELOCITY = 0.6;
 
     private double centerX;
     private double centerY;
@@ -37,25 +35,25 @@ public class HelloApplication extends Application {
 
         stage.setTitle("Odbijanie kulki!");
         stage.setScene(scene);
+        centerX = random.nextDouble(800);
+        centerY = random.nextDouble(600);
 
-        centerX = random.nextDouble() * (SCENE_WIDTH - 2 * BALL_RADIUS) + BALL_RADIUS;
-        centerY = random.nextDouble() * (SCENE_HEIGHT - 2 * BALL_RADIUS) + BALL_RADIUS;
-
-        angle = random.nextDouble() * 2 * Math.PI;
-        deltaX = BALL_SPEED * Math.cos(angle);
-        deltaY = BALL_SPEED * Math.sin(angle);
+        angle = random.nextDouble(2*Math.PI);
+        deltaX = BALL_VELOCITY * Math.cos(angle) + 0.1;
+        deltaY = BALL_VELOCITY * Math.sin(angle) + 0.1;
         ball.setRadius(BALL_RADIUS);
         ball.setCenterX(centerX);
         ball.setCenterY(centerY);
         ball.setFill(Color.BLACK);
-
         root.getChildren().addAll(ball);
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 centerX += deltaX;
                 centerY += deltaY;
+
 
                 if (centerX + BALL_RADIUS >= SCENE_WIDTH || centerX - BALL_RADIUS <= 0){
                     deltaX *= -1;
